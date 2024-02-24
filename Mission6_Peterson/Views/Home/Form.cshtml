@@ -11,6 +11,11 @@
 
 <form method="post">
 
+    @if (Model != null && Model.MovieId != 0)
+    {
+        <input type="hidden" asp-for="MovieId" />
+    }
+
     <label asp-for="Title">Title:</label>
     <input asp-for="Title" required/>
     <br />
@@ -25,36 +30,35 @@
         <option value="R">R</option>
     </select>
     <br />
-    <label asp-for="Category">Category:</label>
-    <select asp-for="Category">
-        <option value="Miscellaneous">Miscellaneous</option>
-        <option value="Comedy">Comedy</option>
-        <option value="Drama">Drama</option>
-        <option value="Family">Family</option>
-        <option value="Television">Television</option>
-        <option value="Horror/Suspense">Horror/Suspense</option>
-        <option value="Action/Adventure">Action/Adventure</option>
-        <option value="VHS">VHS</option>
+    <label asp-for="CategoryId">Category:</label>
+    <select asp-for="CategoryId">
+        <option value="">Select a Category</option>
+        @if (ViewBag.Categories != null)
+        {
+            foreach (Category c in ViewBag.Categories)
+            {
+                <option value="@c.CategoryId">@c.CategoryName</option>
+            }
+        }
     </select>
+
+        
     <br />
 
     <label asp-for="Director">Director:</label>
     <input asp-for="Director" required/>
     <br />
-    <label asp-for="Director2">Director 2 (if applicable):</label>
-    <input asp-for="Director2" />
-    <br />
-    <label asp-for="Director3">Director 3 (if applicable):</label>
-    <input asp-for="Director3" />
-    <br />
-    <label asp-for="Director4">Director 4 (if applicable):</label>
-    <input asp-for="Director4" />
-    <br />
 
     <label asp-for="Edited">Edited (if applicable):</label>
     <select asp-for="Edited">
-        <option value="true">Yes</option>
-        <option value="false">No</option>
+        <option value="1">Yes</option>
+        <option value="0">No</option>
+    </select>
+    <br />
+    <label asp-for="CopiedToPlex">Copied to Plex:</label>
+    <select asp-for="CopiedToPlex">
+        <option value="1">Yes</option>
+        <option value="0">No</option>
     </select>
     <br />
     <label asp-for="LentTo">Lent To (if applicable):</label>
@@ -63,6 +67,8 @@
     <label asp-for="Notes">Notes (if applicable):</label>
     <input asp-for="Notes" maxlength="25"/>
     <br />
+
+    @Html.ValidationMessageFor(m => m.Year)
 
     <button type="submit">Submit Movie</button>
 </form>
